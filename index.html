@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><style id='brand'>:root{
+  --bg:#0b0b0c; --surface:#141417; --surface-2:#1c1c21;
+  --fg:#f5f5f7; --fg-muted:#a1a1aa; --border:#26262b;
+  --accent:#3b82f6; --accent-fg:#fff; --radius:14px; --maxw:1100px;
+  --font:'Inter',system-ui,-apple-system,Segoe UI,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--fg);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.container{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.section{padding:96px 0}
+.hero{padding:140px 0 90px;text-align:center}
+h1{font-size:clamp(2.5rem,6vw,4.5rem);line-height:1.05;letter-spacing:-.02em}
+h2{font-size:clamp(1.8rem,4vw,2.8rem);letter-spacing:-.01em}
+.muted{color:var(--fg-muted)}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--accent-fg);padding:14px 28px;border-radius:var(--radius);font-weight:600;text-decoration:none;border:0;cursor:pointer;transition:transform .15s ease,opacity .15s ease}
+.btn:hover{transform:translateY(-2px);opacity:.92}
+.btn-ghost{background:transparent;color:var(--fg);border:1px solid var(--border)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px}
+.grid{display:grid;gap:24px}
+@media(max-width:640px){.section{padding:64px 0}.hero{padding:96px 0 64px}}
+</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ember & Ash Coffee — Small-Batch Specialty Roasters</title>
+<style>
+  /* ── Override brand accent for coffee warmth ── */
+  :root {
+    --bg: #0f0b08;
+    --surface: #1c1510;
+    --fg: #f5ede3;
+    --fg-muted: #a89080;
+    --accent: #c8622a;
+    --accent-light: #e8845a;
+    --accent-warm: #f0a050;
+    --border: rgba(200,98,42,0.22);
+    --radius: 12px;
+    --gold: #d4a855;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  /* ── Utility ── */
+  .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+  .section { padding: 96px 0; }
+  .muted { color: var(--fg-muted); }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+  }
+  .grid { display: grid; gap: 24px; }
+  .btn {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    border-radius: 40px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.25s, transform 0.18s, box-shadow 0.25s;
+  }
+  .btn:hover {
+    background: var(--accent-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(200,98,42,0.38);
+  }
+  .btn-ghost {
+    background: transparent;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    display: inline-block;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 12px 30px;
+    border-radius: 40px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.25s, color 0.25s, transform 0.18s;
+  }
+  .btn-ghost:hover {
+    background: var(--accent);
+    color: #fff;
+    transform: translateY(-2px);
+  }
+
+  /* ── Noise texture overlay ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 0;
+    transition: background 0.35s, padding 0.35s, backdrop-filter 0.35s;
+  }
+  nav.scrolled {
+    background: rgba(15,11,8,0.92);
+    backdrop-filter: blur(12px);
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  nav .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .logo-mark {
+    width: 38px; height: 38px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    box-shadow: 0 0 18px rgba(200,98,42,0.5);
+  }
+  .logo-text {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--fg);
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+  }
+  .logo-text span { color: var(--accent); }
+  .logo-sub {
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    display: block;
+  }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--fg-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    font-family: 'Arial', sans-serif;
+  }
+  .nav-links a:hover { color: var(--fg); }
+  .nav-cta { font-size: 0.82rem !important; padding: 9px 20px !important; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding-top: 80px;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 65% 45%, rgba(200,98,42,0.14) 0%, transparent 65%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(212,168,85,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 80% 20%, rgba(200,98,42,0.06) 0%, transparent 70%);
+  }
+  .hero-rings {
+    position: absolute;
+    right: -120px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 700px; height: 700px;
+    pointer-events: none;
+  }
+  .ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse-ring 4s ease-in-out infinite;
+  }
+  .ring:nth-child(1) { width: 280px; height: 280px; border-color: rgba(200,98,42,0.35); animation-delay: 0s; }
+  .ring:nth-child(2) { width: 420px; height: 420px; animation-delay: 0.8s; }
+  .ring:nth-child(3) { width: 560px; height: 560px; animation-delay: 1.6s; }
+  .ring:nth-child(4) { width: 700px; height: 700px; animation-delay: 2.4s; }
+  @keyframes pulse-ring {
+    0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.02); }
+  }
+  .bean-icon {
+    position: absolute;
+    right: 140px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 220px; height: 220px;
+    opacity: 0.12;
+    pointer-events: none;
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 640px; }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Arial', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+  .eyebrow-dot {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: inline-block;
+    animation: blink 2s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+  .hero h1 {
+    font-size: clamp(2.8rem, 6vw, 4.8rem);
+    line-height: 1.08;
+    font-weight: 700;
+    color: var(--fg);
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-sub {
+    font-size: 1.12rem;
+    color: var(--fg-muted);
+    margin-bottom: 40px;
+    max-width: 500px;
+    line-height: 1.75;
+    font-family: 'Arial', sans-serif;
+    font-weight: 400;
+  }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+  .hero-trust {
+    margin-top: 56px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 36px;
+    flex-wrap: wrap;
+  }
+  .trust-item { }
+  .trust-num {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--fg);
+    line-height: 1;
+  }
+  .trust-num span { color: var(--accent); }
+  .trust-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    font-family: 'Arial', sans-serif;
+    margin-top: 4px;
+  }
+
+  /* ── DIVIDER ── */
+  .flame-divider {
+    text-align: center;
+    padding: 12px 0;
+    font-size: 1.4rem;
+    opacity: 0.5;
+    letter-spacing: 0.5em;
+  }
+
+  /* ── ORIGINS / FEATURE STRIP ── */
+  .strip {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 0;
+  }
+  .strip-inner {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+  .strip-item {
+    padding: 8px 28px;
+    font-family: 'Arial', sans-serif;
+    font-size: 0.76rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    border-right: 1px solid var(--border);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .strip-item:last-child { border-right: none; }
+  .strip-dot { color: var(--accent); font-size: 1.1rem; }
+
+  /* ── FEATURES ── */
+  .section-header { text-align: center; margin-bottom: 64px; }
+  .section-eyebrow {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+    display: block;
+  }
+  .section-header h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--fg);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+  .section-header h2 em { font-style: italic; color: var(--accent); }
+  .section-header p {
+    font-family: 'Arial', sans-serif;
+    color: var(--fg-muted);
+    font-size: 1.05rem;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .features-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media(max-width:860px){ .features-grid { grid-template-columns: 1fr 1fr; } }
+  @media(max-width:560px){ .features-grid { grid-template-columns: 1fr; } }
+  .feat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px 28px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  }
+  .feat-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200,98,42,0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.35s;
+  }
+  .feat-card:hover::before { opacity: 1; }
+  .feat-card:hover {
+    border-color: rgba(200,98,42,0.55);
+    transform: translateY(-5px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+  }
+  .feat-icon {
+    width: 52px; height: 52px;
+    background: rgba(200,98,42,0.15);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    border: 1px solid rgba(200,98,42,0.25);
+  }
+  .feat-card h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--fg);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+  .feat-card p {
+    font-family: 'Arial', sans-serif;
+    color: var(--fg-muted);
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+  .feat-tag {
+    display: inline-block;
+    margin-top: 16px;
+    font-family: 'Arial', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(200,98,42,0.1);
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  /* ── ROAST PROFILES ── */
+  .roasts-bg {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .roasts-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @media(max-width:900px){ .roasts-grid { grid-template-columns: 1fr 1fr; } }
+  @media(max-width:500px){ .roasts-grid { grid-template-columns: 1fr; } }
+  .roast-card {
+    border-radius: var(--radius);
+    padding: 28px 22px;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid transparent;
+  }
+  .roast-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.5);
+    border-color: var(--border);
+  }
+  .roast-card.light   { background: linear-gradient(145deg, #241a10 0%, #1a1208 100%); }
+  .roast-card.medium  { background: linear-gradient(145deg, #2a1508 0%, #1e1008 100%); }
+  .roast-card.dark    { background: linear-gradient(145deg, #1a0e08 0%, #100806 100%); }
+  .roast-card.blend   { background: linear-gradient(145deg, #221210 0%, #180c0a 100%); }
+  .roast-label {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .roast-card.light  .roast-label { color: #d4a855; }
+  .roast-card.medium .roast-label { color: var(--accent-light); }
+  .roast-card.dark   .roast-label { color: #e06040; }
+  .roast-card.blend  .roast-label { color: #c880a0; }
+  .roast-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--fg);
+    margin-bottom: 8px;
+  }
+  .roast-origin {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.78rem;
+    color: var(--fg-muted);
+    margin-bottom: 14px;
+  }
+  .roast-flavor {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.82rem;
+    color: var(--fg);
+    line-height: 1.6;
+    font-style: italic;
+  }
+  .roast-bar-wrap { margin-top: 18px; }
+  .roast-bar-label {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    margin-bottom: 5px;
+    display: flex; justify-content: space-between;
+  }
+  .roast-bar {
+    height: 4px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 2px;
+    margin-bottom: 7px;
+    overflow: hidden;
+  }
+  .roast-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 1s ease;
+  }
+  .light  .roast-bar-fill { background: linear-gradient(90deg, #d4a855, #e8c870); }
+  .medium .roast-bar-fill { background: linear-gradient(90deg, var(--accent), var(--accent-light)); }
+  .dark   .roast-bar-fill { background: linear-gradient(90deg, #c04020, #e06040); }
+  .blend  .roast-bar-fill { background: linear-gradient(90deg, #a04060, #d060a0); }
+  .roast-price {
+    margin-top: 18px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--fg);
+  }
+  .roast-price span {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.75rem;
+    color: var(--fg-muted);
+    font-weight: 400;
+  }
+
+  /* ── PROCESS ── */
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+  }
+  @media(max-width:800px){ .process-steps { grid-template-columns: 1fr 1fr; gap: 24px; } }
+  @media(max-width:480px){ .process-steps { grid-template-columns: 1fr; } }
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 28px;
+    left: 12.5%; right: 12.5%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
+  }
+  @media(max-width:800px){ .process-steps::before { display: none; } }
+  .process-step {
+    text-align: center;
+    padding: 0 20px;
+  }
+  .step-num-wrap {
+    width: 56px; height: 56px;
+    margin: 0 auto 20px;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    position: relative;
+    z-index: 1;
+    transition: border-color 0.3s;
+  }
+  .process-step:hover .step-num-wrap {
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(200,98,42,0.3);
+  }
+  .process-step h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--fg);
+    margin-bottom: 8px;
+  }
+  .process-step p {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.84rem;
+    color: var(--fg-muted);
+    line-height: 1.65;
+  }
+
+  /* ── PRICING ── */
+  .pricing-grid {
+    grid-template-columns: repeat(3, 1fr);
+    align-items: start;
+  }
+  @media(max-width:820px){ .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; } }
+  .price-card {
+    border-radius: var(--radius);
+    padding: 40px 32px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+  }
+  .price-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.45);
+  }
+  .price-card.featured {
+    background: linear-gradient(155deg, #251610 0%, #1c1008 100%);
+    border-color: var(--accent);
+    box-shadow: 0 0 40px rgba(200,98,42,0.18);
+  }
+  .price-card.featured:hover {
+    box-shadow: 0 20px 60px rgba(200,98,42,0.3);
+  }
+  .featured-badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 20px;
+    white-space: nowrap;
+    font-weight: 700;
+  }
+  .price-tier {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .price-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--fg);
+    margin-bottom: 6px;
+  }
+  .price-tagline {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.85rem;
+    color: var(--fg-muted);
+    margin-bottom: 28px;
+    line-height: 1.55;
+  }
+  .price-amount {
+    margin-bottom: 6px;
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+  }
+  .price-dollar { font-size: 1.4rem; color: var(--fg-muted); align-self: flex-start; margin-top: 8px; }
+  .price-num { font-size: 3.2rem; font-weight: 700; color: var(--fg); line-height: 1; }
+  .price-per {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.8rem;
+    color: var(--fg-muted);
+    margin-bottom: 8px;
+  }
+  .price-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 24px 0;
+  }
+  .price-perks { list-style: none; margin-bottom: 32px; }
+  .price-perks li {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.87rem;
+    color: var(--fg-muted);
+    padding: 6px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.45;
+  }
+  .perk-check { color: var(--accent); flex-shrink: 0; font-size: 0.9rem; margin-top: 1px; }
+  .price-card.featured .price-perks li { color: var(--fg); }
+  .price-note {
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    font-size: 0.82rem;
+    color: var(--fg-muted);
+    margin-top: 36px;
+  }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials-bg {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+  }
+  .testi-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media(max-width:800px){ .testi-grid { grid-template-columns: 1fr; } }
+  .testi-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    transition: border-color 0.3s;
+  }
+  .testi-card:hover { border-color: rgba(200,98,42,0.5); }
+  .testi-stars { color: var(--gold); font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 16px; }
+  .testi-quote {
+    font-size: 0.95rem;
+    color: var(--fg);
+    line-height: 1.75;
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+  .testi-quote::before { content: '\201C'; color: var(--accent); font-size: 2rem; line-height: 0; vertical-align: -0.5rem; margin-right: 3px; }
+  .testi-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .testi-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+    font-family: 'Arial', sans-serif;
+  }
+  .testi-name {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--fg);
+    font-family: 'Arial', sans-serif;
+  }
+  .testi-sub {
+    font-size: 0.75rem;
+    color: var(--fg-muted);
+    font-family: 'Arial', sans-serif;
+  }
+
+  /* ── CTA BANNER ── */
+  .cta-banner {
+    background: linear-gradient(135deg, #1e0e06 0%, #150c08 50%, #1a0e0a 100%);
+    border: 1px solid rgba(200,98,42,0.3);
+    border-radius: 20px;
+    padding: 72px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin: 0 24px;
+  }
+  .cta-banner::before {
+    content: '';
+    position: absolute;
+    top: -60%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 400px;
+    background: radial-gradient(ellipse, rgba(200,98,42,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-banner h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--fg);
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+    position: relative;
+  }
+  .cta-banner h2 em { color: var(--accent); font-style: italic; }
+  .cta-banner p {
+    font-family: 'Arial', sans-serif;
+    color: var(--fg-muted);
+    margin-bottom: 36px;
+    font-size: 1.05rem;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+  }
+  .cta-actions { position: relative; display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+  .cta-subtext {
+    position: relative;
+    margin-top: 20px;
+    font-family: 'Arial', sans-serif;
+    font-size: 0.78rem;
+    color: var(--fg-muted);
+    letter-spacing: 0.06em;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 60px 0 32px;
+    margin-top: 80px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+  @media(max-width:800px){ .footer-grid { grid-template-columns: 1fr 1fr; } }
+  @media(max-width:480px){ .footer-grid { grid-template-columns: 1fr; } }
+  .footer-brand-text {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.87rem;
+    color: var(--fg-muted);
+    line-height: 1.7;
+    margin-top: 14px;
+    max-width: 240px;
+  }
+  .footer-heading {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fg);
+    margin-bottom: 16px;
+    font-weight: 700;
+  }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 10px; }
+  .footer-links a {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.85rem;
+    color: var(--fg-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--accent); }
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: gap;
+    gap: 16px;
+  }
+  .footer-copy {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.78rem;
+    color: var(--fg-muted);
+  }
+  .footer-badges {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .footer-badge {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  /* ── SCROLL ENHANCEMENTS ── */
+  .reveal { opacity: 1; transform: none; }
+
+  @media(max-width:700px){
+    .nav-links { display: none; }
+    .hero h1 { font-size: 2.4rem; }
+    .hero-rings { display: none; }
+    .cta-banner { padding: 48px 24px; margin: 0 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="logo">
+        <div class="logo-mark">🔥</div>
+        <div class="logo-text">
+          Ember <span>&</span> Ash
+          <span class="logo-sub">Small-Batch Coffee</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#coffees">Coffees</a></li>
+        <li><a href="#process">Our Process</a></li>
+        <li><a href="#subscribe">Subscribe</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+      <a href="#subscribe" class="btn nav-cta">Start Subscription</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-rings">
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+  </div>
+  <!-- Decorative bean SVG -->
+  <svg class="bean-icon" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="100" cy="100" rx="75" ry="52" transform="rotate(-30 100 100)" fill="#c8622a"/>
+    <path d="M60 80 Q100 100 140 80 Q120 130 80 130 Q55 115 60 80Z" fill="#0f0b08" opacity="0.6"/>
+  </svg>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-dot"></span>
+        Small-Batch · Direct Trade · Roasted to Order
+      </div>
+      <h1>Coffee Roasted at the<br><em>Edge of Perfection</em></h1>
+      <p class="hero-sub">
+        We source rare single-origin beans from volcanic highlands and sun-drenched valleys, then roast every batch in&#8209;house to unlock flavors most coffees never reveal.
+      </p>
+      <div class="hero-actions">
+        <a href="#subscribe" class="btn">Shop Fresh Roasts</a>
+        <a href="#process" class="btn-ghost">See Our Process</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-item">
+          <div class="trust-num">48<span>h</span></div>
+          <div class="trust-label">Roast-to-Ship</div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-num">12<span>+</span></div>
+          <div class="trust-label">Origin Countries</div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-num">100<span>%</span></div>
+          <div class="trust-label">Arabica Sourced</div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-num">4.9<span>★</span></div>
+          <div class="trust-label">Avg. Roast Rating</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="container">
+    <div class="strip-inner">
+      <div class="strip-item"><span class="strip-dot">●</span> Ethiopia Yirgacheffe</div>
+      <div class="strip-item"><span class="strip-dot">●</span> Guatemala Antigua</div>
+      <div class="strip-item"><span class="strip-dot">●</span> Colombia Huila</div>
+      <div class="strip-item"><span class="strip-dot">●</span> Kenya AA</div>
+      <div class="strip-item"><span class="strip-dot">●</span> Panama Geisha</div>
+      <div class="strip-item"><span class="strip-dot">●</span> Sumatra Mandheling</div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Why Ember & Ash</span>
+      <h2>Every Cup Has a <em>Story Worth Tasting</em></h2>
+      <p>We believe great coffee begins long before the brew — with farmers, soil, and the careful alchemy of heat and time.</p>
+    </div>
+    <div class="grid features-grid">
+      <div class="feat-card">
+        <div class="feat-icon">🌍</div>
+        <h3>Direct-Trade Sourcing</h3>
+        <p>We pay above Fair-Trade premiums directly to farming families, visiting origins each harvest to hand-select the finest lots before they reach commodity markets.</p>
+        <span class="feat-tag">Ethically Sourced</span>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🔥</div>
+        <h3>Precision Drum Roasting</h3>
+        <p>Our cast-iron drum roasters give us granular control over every degree and second — dialing each origin to its own peak expression, never generic.</p>
+        <span class="feat-tag">Roasted to Order</span>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">📦</div>
+        <h3>Ships in 48 Hours</h3>
+        <p>We roast your order the day after your purchase and ship immediately, so you receive beans at their freshest window — never sitting in a warehouse for weeks.</p>
+        <span class="feat-tag">Always Fresh</span>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🧪</div>
+        <h3>Lab-Quality Cupping</h3>
+        <p>Every single lot passes our rigorous SCA-standard cupping protocol. If a batch scores below 85 points, it never ships — full stop.</p>
+        <span class="feat-tag">SCA Rated 85+</span>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🌱</div>
+        <h3>Carbon-Conscious Ops</h3>
+        <p>Solar-assisted roasting facility, compostable packaging, and a portion of every sale funds reforestation projects in our source regions.</p>
+        <span class="feat-tag">Eco-Committed</span>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">📖</div>
+        <h3>Full Transparency Labels</h3>
+        <p>Farm name, altitude, process method, harvest date, and roast date on every bag — because you deserve to know the full journey of your coffee.</p>
+        <span class="feat-tag">Radical Transparency</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROAST PROFILES -->
+<section class="section roasts-bg" id="coffees">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Current Offerings</span>
+      <h2>Find Your <em>Perfect Roast</em></h2>
+      <p>Four distinct roast profiles, each built around a single exceptional origin. Brewed black or with milk — these are coffees that reveal themselves.</p>
+    </div>
+    <div class="grid roasts-grid">
+
+      <div class="roast-card light">
+        <div class="roast-label">Light Roast</div>
+        <div class="roast-name">Sunrise Bloom</div>
+        <div class="roast-origin">🇪🇹 Ethiopia Yirgacheffe · 1,900m</div>
+        <div class="roast-flavor">Jasmine blossom, bergamot, and a lush blueberry finish that lingers like a memory.</div>
+        <div class="roast-bar-wrap">
+          <div class="roast-bar-label"><span>Acidity</span><span>Bright</span></div>
+          <div class="roast-bar"><div class="roast-bar-fill" style="width:82%"></div></div>
+          <div class="roast-bar-label"><span>Body</span><span>Delicate</span></div>
+          <div class="roast-bar"><div class="roast-bar-fill" style="width:38%"></div></div>
+        </div>
+        <div class="roast-price">$22 <span>/ 250g bag</span></div>
+      </div>
+
+      <div class="roast-card medium">
+        <div class="roast-label">Medium Roast</div>
+        <div class="roast-name">Ember Gold</div>
+        <div class="roast-origin">🇨🇴 Colombia Huila · 1,750m</div>
+        <div class="roast-flavor">Caramel sweetness, toasted hazelnut, with a clean citrus brightness on the close.</div>
+        <div class="roast-bar-wrap">
+          <div class="roast-bar-label"><span>Acidity</span><span>Balanced</span></div>
+          <div class="roast-bar"><div class="roast-bar-fill" style="width:55%"></div></div>
+          <div class="roast-bar-label"><span>Body</span><span>Medium-Full</span></div>
+          <div class="roast-bar"><div class="roast-bar-fill" style="width:65%"></div></div>
+        </div>
+        <div class="roast-price">$20 <span>/ 250g bag</span></div>
+      </div>
+
+      <div class="roast-card dark">
+        <div class="roast-label">Dark Roast</div>
+        <div class="roast-name">Volcanic Night</div>
+        <div class="roast-origin">🇬🇹 Guatemala Antigua · 1,500m</div>
+        <div class="roast-flavor">Dark chocolate, brown sugar, smoky cedar — bold and unapologetic from first sip to last.</div>
+        <div class="roast-bar-wrap">
+          <div class="roast-bar-label"><span>Acidity</span><span>Low</span></div>
+          <div class="roast-bar"><div class="roast-bar-fill" style="width:22%"></div></div>
+          <div class="roast-bar-label"><span>Body</span><span>Full</span></div>
+          <div class="roast-bar"><div class="roast-bar-fill" style="width:90%"></div></div>
+        </div>
+        <div class="roast-price">$20 <span>/ 250g bag</span></div>
+      </div>
+
+      <div class="roast-card blend">
+        <div class="roast-label">Signature Blend</div>
+        <div class="roast-name">Ash & Velvet</div>
+        <div class="roast-origin">🌐 Multi-Origin Blend · Three Farms</div>
+        <div class="roast-flavor">Stone fruit, milk chocolate, and a silky, lingering sweetness — designed for espresso perfection.</div>
+        <div class="roast-bar-wrap">
+          <div class="roast-bar-label"><span>Acidity</span><span>Moderate</span></div>
+          <div class="roast-bar"><div class="roast-bar-fill" style="width:45%"></div></div>
+          <div class="roast-bar-label"><span>Body</span><span>Velvety</span></div>
+          <div class="roast-bar"><div class="roast-bar-fill" style="width:80%"></div></div>
+        </div>
+        <div class="roast-price">$24 <span>/ 250g bag</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section" id="process">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">From Seed to Cup</span>
+      <h2>The <em>Ember & Ash</em> Method</h2>
+      <p>Four obsessive steps between a cherry on a hillside and the cup in your hands.</p>
+    </div>
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-num-wrap">🌿</div>
+        <h4>Origin Selection</h4>
+        <p>We travel to farms at harvest, taste alongside producers, and only commit to lots that score 85+ on our SCA cupping sheets.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num-wrap">🚢</div>
+        <h4>Direct Import</h4>
+        <p>Green beans arrive in grain-pro sacks, stored in our climate-controlled warehouse to preserve peak freshness until roast day.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num-wrap">🔥</div>
+        <h4>Precision Roasting</h4>
+        <p>Each origin gets a tailored roast profile developed over dozens of test batches — every charge weight, preheat, and rate of rise mapped precisely.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num-wrap">📬</div>
+        <h4>Roast & Ship</h4>
+        <p>Your order triggers a fresh roast. Beans rest for 24 hours to degas, then ship in valve-sealed bags so freshness is locked until you open them.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING / SUBSCRIPTION -->
+<section class="section" id="subscribe">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Subscription Plans</span>
+      <h2>Never Run Out of <em>Great Coffee</em></h2>
+      <p>Subscribe and save. Choose your cadence, your roast level, and your grind. Pause or cancel anytime — no questions asked.</p>
+    </div>
+    <div class="grid pricing-grid">
+
+      <div class="price-card">
+        <div class="price-tier">Explorer</div>
+        <div class="price-name">The Single</div>
+        <div class="price-tagline">One bag, one origin. Perfect for the curious sipper just beginning their specialty journey.</div>
+        <div class="price-amount">
+          <span class="price-dollar">$</span>
+          <span class="price-num">18</span>
+        </div>
+        <div class="price-per">per bag / monthly delivery</div>
+        <div class="price-divider"></div>
+        <ul class="price-perks">
+          <li><span class="perk-check">✦</span> 250g single-origin bag each month</li>
+          <li><span class="perk-check">✦</span> Roasted within 48 hrs of shipment</li>
+          <li><span class="perk-check">✦</span> Origin story card included</li>
+          <li><span class="perk-check">✦</span> Grind preference respected</li>
+          <li><span class="perk-check">✦</span> Pause or cancel anytime</li>
+        </ul>
+        <a href="#" class="btn-ghost" style="width:100%; text-align:center; display:block;">Start Explorer</a>
+      </div>
+
+      <div class="price-card featured">
+        <div class="featured-badge">🔥 Most Popular</div>
+        <div class="price-tier">Connoisseur</div>
+        <div class="price-name">The Duo</div>
+        <div class="price-tagline">Two curated bags each month — a seasonal light and a reliable signature. Our most beloved plan.</div>
+        <div class="price-amount">
+          <span class="price-dollar">$</span>
+          <span class="price-num">34</span>
+        </div>
+        <div class="price-per">for 2 bags / monthly delivery · <strong style="color:var(--accent)">Save $6</strong></div>
+        <div class="price-divider"></div>
+        <ul class="price-perks">
+          <li><span class="perk-check">✦</span> 2 × 250g bags per month</li>
+          <li><span class="perk-check">✦</span> Curated by our head roaster</li>
+          <li><span class="perk-check">✦</span> Tasting notes & brew guides</li>
+          <li><span class="perk-check">✦</span> Early access to limited lots</li>
+          <li><span class="perk-check">✦</span> 10% off à la carte orders</li>
+          <li><span class="perk-check">✦</span> Free shipping, every month</li>
+        </ul>
+        <a href="#" class="btn" style="width:100%; text-align:center; display:block;">Start Duo Plan</a>
+      </div>
+
+      <div class="price-card">
+        <div class="price-tier">Obsessive</div>
+        <div class="price-name">The Cellar</div>
+        <div class="price-tagline">Four bags, complete roast spectrum, plus a rotating rare or micro-lot surprise for the true devotee.</div>
+        <div class="price-amount">
+          <span class="price-dollar">$</span>
+          <span class="price-num">64</span>
+        </div>
+        <div class="price-per">for 4 bags / monthly delivery · <strong style="color:var(--accent)">Save $16</strong></div>
+        <div class="price-divider"></div>
+        <ul class="price-perks">
+          <li><span class="perk-check">✦</span> 4 × 250g bags, full spectrum</li>
+          <li><span class="perk-check">✦</span> 1 surprise rare / micro-lot bag</li>
+          <li><span class="perk-check">✦</span> Direct farmer correspondence</li>
+          <li><span class="perk-check">✦</span> 15% off all additional orders</li>
+          <li><span class="perk-check">✦</span> Annual origin trip invite</li>
+          <li><span class="perk-check">✦</span> Free shipping + priority roast</li>
+        </ul>
+        <a href="#" class="btn-ghost" style="width:100%; text-align:center; display:block;">Start Cellar</a>
+      </div>
+
+    </div>
+    <p class="price-note">All subscriptions ship free within the continental US. International shipping available. Cancel or pause anytime from your account — we'll miss you, but we won't guilt-trip you.</p>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section testimonials-bg">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">From Our Community</span>
+      <h2>What Coffee Lovers Are <em>Saying</em></h2>
+    </div>
+    <div class="grid testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">The Ethiopia Yirgacheffe genuinely stopped me mid-sip. I've had specialty coffee for years and this is the first time I tasted actual jasmine. Subscriber for life.</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background: linear-gradient(135deg, #c8622a, #e08050);">M</div>
+          <div>
+            <div class="testi-name">Maya R.</div>
+            <div class="testi-sub">Duo Subscriber · Portland, OR</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">I roast my own beans occasionally, so I'm hard to impress. Ember & Ash's roast consistency is flawless. The origin cards that come with each bag are a beautiful touch.</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background: linear-gradient(135deg, #4060a0, #6080d0);">J</div>
+          <div>
+            <div class="testi-name">James T.</div>
+            <div class="testi-sub">Cellar Subscriber · Austin, TX</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">Switched from a big-box subscription after a friend gifted me a bag of Volcanic Night. The freshness difference is shocking. It's changed how I think about morning coffee.</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background: linear-gradient(135deg, #408060, #60a080);">S</div>
+          <div>
+            <div class="testi-name">Sofia K.</div>
+            <div class="testi-sub">Explorer Subscriber · Chicago, IL</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="section" style="padding-bottom: 0;">
+  <div class="cta-banner">
+    <h2>Your First Bag Ships <em>Tomorrow</em></h2>
+    <p>Order by 2pm and we roast your beans today. There's never been a better time to taste the difference freshness makes.</p>
+    <div class="cta-actions">
+      <a href="#subscribe" class="btn">Choose Your Plan</a>
+      <a href="#coffees" class="btn-ghost">Browse Coffees First</a>
+    </div>
+    <div class="cta-subtext">Free shipping on subscriptions · Pause anytime · Roasted to order</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="#" class="logo">
+          <div class="logo-mark" style="width:32px;height:32px;font-size:0.9rem;">🔥</div>
+          <div class="logo-text" style="font-size:1rem;">
+            Ember <span>&</span> Ash
+            <span class="logo-sub">Small-Batch Coffee</span>
+          </div>
+        </a>
+        <p class="footer-brand-text">Roasting with intention since 2021. We believe the best cup you've ever had is still waiting to be brewed.</p>
+      </div>
+      <div>
+        <div class="footer-heading">Shop</div>
+        <ul class="footer-links">
+          <li><a href="#">Light Roasts</a></li>
+          <li><a href="#">Medium Roasts</a></li>
+          <li><a href="#">Dark Roasts</a></li>
+          <li><a href="#">Blends</a></li>
+          <li><a href="#">Gift Cards</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Subscribe</div>
+        <ul class="footer-links">
+          <li><a href="#">Explorer Plan</a></li>
+          <li><a href="#">Duo Plan</a></li>
+          <li><a href="#">Cellar Plan</a></li>
+          <li><a href="#">Corporate Orders</a></li>
+          <li><a href="#">Wholesale</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Company</div>
+        <ul class="footer-links">
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">Origin Partners</a></li>
+          <li><a href="#">Sustainability</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 Ember & Ash Coffee. All rights reserved.</div>
+      <div class="footer-badges">
+        <span class="footer-badge">100% Arabica</span>
+        <span class="footer-badge">Direct Trade</span>
+        <span class="footer-badge">SCA Member</span>
+        <span class="footer-badge">Carbon Neutral Shipping</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll effect
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  }, { passive: true });
+
+  // Subtle card hover glow enhancement
+  document.querySelectorAll('.feat-card, .roast-card, .price-card, .testi-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
