@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+/* Brand base */
+:root {
+  --color-parchment: #F5ECD7;
+  --color-ember-dark: #1A0A00;
+  --color-ember: #C44B1B;
+  --color-amber: #E8A045;
+  --color-roast: #3D2B1F;
+  --color-linen: #EDE4CC;
+  --color-bone: #D4C8B0;
+  --color-ash: #7A6A5A;
+}
+
+body {
+  background-color: var(--color-parchment);
+  color: var(--color-ember-dark);
+}
+
+/* Marquee hover pause */
+.marquee-container:hover .animate-marquee {
+  animation-play-state: paused;
+}
+
+/* Add-to-cart underline draw animation */
+.cart-link::after {
+  content: "";
+  display: block;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease-in-out;
+}
+.cart-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* Post / legal body — brand-matched */
+.post-body {
+  color: var(--color-ember-dark);
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+}
+.post-body h1 {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: 2.25em;
+  font-weight: 700;
+  margin: 0 0 0.6em;
+  line-height: 1.15;
+  color: var(--color-ember-dark);
+}
+.post-body h2 {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: 1.5em;
+  font-weight: 600;
+  margin: 1.8em 0 0.6em;
+  color: var(--color-ember-dark);
+}
+.post-body h3 {
+  font-size: 1.15em;
+  font-weight: 600;
+  margin: 1.4em 0 0.5em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-ash);
+}
+.post-body p {
+  margin: 1em 0;
+  line-height: 1.8;
+  font-size: 1rem;
+}
+.post-body ul,
+.post-body ol {
+  margin: 1em 0;
+  padding-left: 1.5em;
+}
+.post-body ul {
+  list-style: disc;
+}
+.post-body ol {
+  list-style: decimal;
+}
+.post-body a {
+  color: var(--color-ember);
+  text-decoration: underline;
+}
+.post-body blockquote {
+  border-left: 2px solid var(--color-ember);
+  padding-left: 1.25em;
+  font-family: var(--font-playfair), Georgia, serif;
+  font-style: italic;
+  font-size: 1.15em;
+  color: var(--color-ember);
+  margin: 2em 0;
+  line-height: 1.6;
+}
+.post-body img {
+  border-radius: 0.25em;
+  margin: 2em 0;
+  max-width: 100%;
+}
+.post-body strong {
+  font-weight: 600;
+}
+.post-body hr {
+  border: none;
+  border-top: 1px solid var(--color-bone);
+  margin: 2.5em 0;
+}
