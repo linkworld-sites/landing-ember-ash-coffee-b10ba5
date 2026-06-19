@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useRef } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 
@@ -10,93 +11,8 @@ interface GiftProduct {
   price: string;
   roastBadge: string;
   note: string;
-  art: React.ReactNode;
-}
-
-function TrioArt() {
-  return (
-    <svg className="w-full h-full" viewBox="0 0 400 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <defs>
-        <linearGradient id="trio-bg" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#EDE4CC" />
-          <stop offset="100%" stopColor="#D4C8B0" />
-        </linearGradient>
-      </defs>
-      <rect width="400" height="420" fill="url(#trio-bg)" />
-      {[80, 190, 300].map((x, i) => (
-        <g key={x}>
-          <rect
-            x={x - 35}
-            y={80 + i * 15}
-            width={70}
-            height={200 - i * 10}
-            rx={4}
-            fill="#3D2B1F"
-            fillOpacity={0.08 + i * 0.03}
-            stroke="#3D2B1F"
-            strokeWidth="1"
-            strokeOpacity={0.2 + i * 0.05}
-          />
-          <rect
-            x={x - 28}
-            y={85 + i * 15}
-            width={56}
-            height={16}
-            rx={2}
-            fill="#C44B1B"
-            fillOpacity={0.35 + i * 0.05}
-          />
-          <text
-            x={x}
-            y={98 + i * 15}
-            textAnchor="middle"
-            fontFamily="var(--font-dm-sans), system-ui"
-            fontSize="7"
-            letterSpacing="1.5"
-            fill="#F5ECD7"
-            fillOpacity="0.9"
-          >
-            EMBER & ASH
-          </text>
-        </g>
-      ))}
-      <ellipse cx="200" cy="360" rx="180" ry="12" fill="#3D2B1F" fillOpacity="0.08" />
-      <text
-        x="200"
-        y="405"
-        textAnchor="middle"
-        fontFamily="var(--font-dm-sans), system-ui"
-        fontSize="8"
-        letterSpacing="2"
-        fill="#7A6A5A"
-        fillOpacity="0.7"
-      >
-        [Product photo placeholder]
-      </text>
-    </svg>
-  );
-}
-
-function SingleBagArt() {
-  return (
-    <svg className="w-full h-full" viewBox="0 0 400 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <defs>
-        <linearGradient id="single-bg" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#EDE4CC" />
-          <stop offset="100%" stopColor="#D4C8B0" />
-        </linearGradient>
-      </defs>
-      <rect width="400" height="420" fill="url(#single-bg)" />
-      <rect x="110" y="60" width="180" height="260" rx="6" fill="#3D2B1F" fillOpacity="0.12" stroke="#3D2B1F" strokeWidth="1.5" strokeOpacity="0.25" />
-      <circle cx="200" cy="120" r="12" fill="none" stroke="#C44B1B" strokeWidth="1.2" strokeOpacity="0.5" />
-      <circle cx="200" cy="120" r="6" fill="#C44B1B" fillOpacity="0.3" />
-      <rect x="130" y="155" width="140" height="80" rx="3" fill="#C44B1B" fillOpacity="0.15" stroke="#C44B1B" strokeWidth="0.8" strokeOpacity="0.4" />
-      <text x="200" y="180" textAnchor="middle" fontFamily="var(--font-playfair), serif" fontSize="13" fill="#3D2B1F" fillOpacity="0.8">Ember & Ash</text>
-      <text x="200" y="200" textAnchor="middle" fontFamily="var(--font-dm-sans), system-ui" fontSize="7" letterSpacing="2" fill="#7A6A5A">ROAST-TO-ORDER</text>
-      <ellipse cx="200" cy="340" rx="90" ry="8" fill="#3D2B1F" fillOpacity="0.07" />
-      <text x="200" y="408" textAnchor="middle" fontFamily="var(--font-dm-sans), system-ui" fontSize="8" letterSpacing="2" fill="#7A6A5A" fillOpacity="0.7">[Product photo placeholder]</text>
-    </svg>
-  );
+  image: string;
+  imageAlt: string;
 }
 
 const gifts: GiftProduct[] = [
@@ -107,7 +23,8 @@ const gifts: GiftProduct[] = [
     price: "£45.00",
     roastBadge: "Roasted fresh",
     note: "Ethiopia · Guatemala · Colombia",
-    art: <TrioArt />,
+    image: "/img/gift-trio.jpg",
+    imageAlt: "Three specialty coffee bags from Ember & Ash Coffee",
   },
   {
     name: "The Monthly Gift",
@@ -116,7 +33,8 @@ const gifts: GiftProduct[] = [
     price: "£29.00 / month",
     roastBadge: "Dated on bag",
     note: "Single-origin · Whole bean or ground",
-    art: <SingleBagArt />,
+    image: "/img/gift-monthly.jpg",
+    imageAlt: "A specialty coffee bag beside a ceramic mug with morning light",
   },
 ];
 
@@ -134,9 +52,16 @@ function GiftCard({ gift, index }: { gift: GiftProduct; index: number }) {
       transition={{ duration: 0.5, ease: "easeOut", delay: index * 0.12 }}
     >
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-linen">
-        {gift.art}
-        <div className="absolute top-4 right-4 w-16 h-16 rounded-full border-2 border-ember flex items-center justify-center bg-ember/10">
-          <p className="font-body text-[8px] tracking-[0.1em] uppercase text-ember text-center leading-tight px-1">
+        <Image
+          src={gift.image}
+          alt={gift.imageAlt}
+          fill
+          className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
+          sizes="(max-width: 768px) 100vw, 50vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-ember-dark/30 via-transparent to-transparent" />
+        <div className="absolute top-4 right-4 w-16 h-16 rounded-full border-2 border-ember flex items-center justify-center bg-ember-dark/60 z-10">
+          <p className="font-body text-[8px] tracking-[0.1em] uppercase text-parchment text-center leading-tight px-1">
             {gift.roastBadge}
           </p>
         </div>

@@ -1,92 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useInView, useReducedMotion } from "framer-motion";
-
-function FarmArt() {
-  return (
-    <svg
-      className="w-full h-full"
-      viewBox="0 0 700 900"
-      preserveAspectRatio="xMidYMid slice"
-      aria-hidden="true"
-    >
-      <defs>
-        <radialGradient id="farm-sky" cx="50%" cy="30%" r="70%">
-          <stop offset="0%" stopColor="#E8A045" stopOpacity="0.4" />
-          <stop offset="100%" stopColor="#3D2B1F" stopOpacity="0.9" />
-        </radialGradient>
-        <linearGradient id="farm-ground" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#3D2B1F" />
-          <stop offset="100%" stopColor="#1A0A00" />
-        </linearGradient>
-        <filter id="farm-blur">
-          <feGaussianBlur stdDeviation="1.5" />
-        </filter>
-      </defs>
-
-      {/* Sky */}
-      <rect width="700" height="900" fill="url(#farm-sky)" />
-
-      {/* Rolling hills — layered */}
-      <path d="M 0 600 Q 175 500 350 560 Q 525 620 700 520 L 700 900 L 0 900 Z" fill="#3D2B1F" />
-      <path d="M 0 650 Q 200 570 400 620 Q 560 660 700 580 L 700 900 L 0 900 Z" fill="#1A0A00" fillOpacity="0.8" />
-      <path d="M 0 720 Q 150 680 300 700 Q 450 720 700 670 L 700 900 L 0 900 Z" fill="#1A0A00" />
-
-      {/* Sun / light source */}
-      <circle cx="350" cy="260" r="90" fill="#E8A045" fillOpacity="0.18" />
-      <circle cx="350" cy="260" r="55" fill="#E8A045" fillOpacity="0.25" />
-      <circle cx="350" cy="260" r="28" fill="#E8A045" fillOpacity="0.55" />
-
-      {/* Coffee plant silhouettes on hills */}
-      <g fill="#1A0A00" fillOpacity="0.75">
-        {[80, 160, 260, 360, 440, 560, 640].map((x, i) => {
-          const y = 545 + (i % 3) * 18;
-          const h = 45 + (i % 2) * 20;
-          return (
-            <g key={x}>
-              <rect x={x - 2} y={y - h} width={4} height={h} />
-              <ellipse cx={x} cy={y - h} rx={16 + (i % 3) * 4} ry={10} />
-              <ellipse cx={x} cy={y - h * 0.6} rx={20 + (i % 3) * 4} ry={12} />
-            </g>
-          );
-        })}
-      </g>
-
-      {/* Atmospheric haze lines */}
-      {[380, 420, 460, 500].map((y, i) => (
-        <line key={y} x1={0} y1={y} x2={700} y2={y} stroke="#E8A045" strokeWidth="0.4" strokeOpacity={0.08 - i * 0.015} />
-      ))}
-
-      {/* Foreground texture — soil rows */}
-      {Array.from({ length: 8 }, (_, i) => (
-        <path
-          key={i}
-          d={`M 0 ${730 + i * 22} Q 350 ${720 + i * 22} 700 ${730 + i * 22}`}
-          fill="none"
-          stroke="#3D2B1F"
-          strokeWidth="1.5"
-          strokeOpacity="0.6"
-        />
-      ))}
-
-      {/* "Origin" stamp text mark */}
-      <text
-        x="350"
-        y="860"
-        textAnchor="middle"
-        fontFamily="var(--font-dm-sans), system-ui"
-        fontSize="9"
-        letterSpacing="4"
-        fill="#E8A045"
-        fillOpacity="0.5"
-        textDecoration="none"
-      >
-        GUJI ZONE · ETHIOPIA · 2,100M
-      </text>
-    </svg>
-  );
-}
 
 export default function FarmStory() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -112,10 +28,24 @@ export default function FarmStory() {
         {/* Left — pinned farm image */}
         <div className="relative lg:sticky lg:top-0 lg:h-screen w-full lg:w-1/2 overflow-hidden bg-ember-dark shrink-0">
           <motion.div className="w-full h-full" style={{ scale: imageScale }}>
-            <FarmArt />
+            <Image
+              src="/img/farm-story.jpg"
+              alt="Ethiopian coffee farm in the Guji highlands"
+              fill
+              className="object-cover object-center"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
+            {/* Amber tint overlay for brand warmth */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to bottom, rgba(26,10,0,0.1) 0%, rgba(26,10,0,0.35) 100%)",
+              }}
+            />
           </motion.div>
           {/* Origin stamp overlay */}
-          <div className="absolute bottom-8 left-8 right-8">
+          <div className="absolute bottom-8 left-8 right-8 z-10">
             <div className="inline-block border border-bone/30 px-4 py-2">
               <p className="font-body text-[10px] tracking-[0.15em] uppercase text-bone/70">
                 Featured Origin — Ethiopia Guji Natural
