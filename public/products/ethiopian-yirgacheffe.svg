@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+  <defs>
+    <linearGradient id="bg-eth" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1A0A00"/>
+      <stop offset="100%" stop-color="#2D1206"/>
+    </linearGradient>
+    <linearGradient id="bag-eth" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C44B1B"/>
+      <stop offset="40%" stop-color="#8B2E0A"/>
+      <stop offset="100%" stop-color="#3D1A05"/>
+    </linearGradient>
+    <linearGradient id="label-eth" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5ECD7"/>
+      <stop offset="100%" stop-color="#EDE4CC"/>
+    </linearGradient>
+    <filter id="glow-eth">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <radialGradient id="light-eth" cx="30%" cy="20%" r="60%">
+      <stop offset="0%" stop-color="#E8A045" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="1000" fill="url(#bg-eth)"/>
+  <rect width="800" height="1000" fill="url(#light-eth)"/>
+
+  <!-- Subtle texture dots -->
+  <circle cx="120" cy="80" r="1.5" fill="#C44B1B" opacity="0.3"/>
+  <circle cx="680" cy="120" r="1" fill="#E8A045" opacity="0.25"/>
+  <circle cx="60" cy="400" r="1" fill="#C44B1B" opacity="0.2"/>
+  <circle cx="750" cy="650" r="1.5" fill="#E8A045" opacity="0.2"/>
+  <circle cx="200" cy="900" r="1" fill="#C44B1B" opacity="0.25"/>
+
+  <!-- Coffee bag body -->
+  <rect x="220" y="180" width="360" height="560" rx="12" fill="url(#bag-eth)"/>
+
+  <!-- Bag crease lines -->
+  <line x1="280" y1="180" x2="280" y2="740" stroke="#1A0A00" stroke-width="1.5" opacity="0.4"/>
+  <line x1="520" y1="180" x2="520" y2="740" stroke="#1A0A00" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- Bag top fold -->
+  <path d="M220 180 Q280 160 400 158 Q520 160 580 180" stroke="#3D1A05" stroke-width="2" fill="none" opacity="0.6"/>
+  <rect x="240" y="155" width="320" height="30" rx="4" fill="#2D1206" opacity="0.6"/>
+
+  <!-- Valve circle -->
+  <circle cx="400" cy="220" r="20" fill="#1A0A00" opacity="0.5"/>
+  <circle cx="400" cy="220" r="14" fill="none" stroke="#E8A045" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="400" cy="220" r="6" fill="#E8A045" opacity="0.4"/>
+
+  <!-- Label area -->
+  <rect x="255" y="275" width="290" height="330" rx="6" fill="url(#label-eth)"/>
+
+  <!-- Label top accent bar -->
+  <rect x="255" y="275" width="290" height="8" rx="3" fill="#C44B1B"/>
+
+  <!-- Origin label text -->
+  <text x="400" y="320" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#7A6A5A" letter-spacing="3" font-style="italic">SINGLE ORIGIN</text>
+
+  <!-- Product name -->
+  <text x="400" y="360" text-anchor="middle" font-family="Georgia, serif" font-size="22" font-weight="700" fill="#1A0A00">Ethiopian</text>
+  <text x="400" y="390" text-anchor="middle" font-family="Georgia, serif" font-size="22" font-weight="700" fill="#1A0A00">Yirgacheffe</text>
+
+  <!-- Divider -->
+  <line x1="295" y1="410" x2="505" y2="410" stroke="#C44B1B" stroke-width="1" opacity="0.5"/>
+
+  <!-- Roast info -->
+  <text x="400" y="440" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#3D2B1F" letter-spacing="1">LIGHT ROAST</text>
+
+  <!-- Tasting notes -->
+  <text x="400" y="475" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#7A6A5A" letter-spacing="1">Jasmine · Bergamot · Lemon Zest</text>
+
+  <!-- Origin flag area -->
+  <text x="400" y="515" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#7A6A5A">YIRGACHEFFE ZONE, ETHIOPIA</text>
+
+  <!-- Altitude badge -->
+  <rect x="340" y="530" width="120" height="28" rx="14" fill="#1A0A00"/>
+  <text x="400" y="548" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#E8A045" letter-spacing="1">1800–2200m</text>
+
+  <!-- Bottom of label: weight -->
+  <text x="400" y="588" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#7A6A5A" letter-spacing="2">250g · ROASTED TO ORDER</text>
+
+  <!-- Bean illustration (abstract) -->
+  <ellipse cx="400" cy="760" rx="30" ry="22" fill="#1A0A00" opacity="0.5" transform="rotate(-20 400 760)"/>
+  <path d="M386 748 Q400 762 414 772" stroke="#C44B1B" stroke-width="1.5" fill="none" opacity="0.6" stroke-linecap="round"/>
+
+  <!-- Bottom ember glow -->
+  <ellipse cx="400" cy="950" rx="180" ry="60" fill="#C44B1B" opacity="0.08"/>
+
+  <!-- Ember & Ash wordmark -->
+  <text x="400" y="970" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#7A6A5A" letter-spacing="3" opacity="0.7">EMBER &amp; ASH</text>
+</svg>

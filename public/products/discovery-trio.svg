@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+  <defs>
+    <linearGradient id="bg-trio" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1A0A00"/>
+      <stop offset="100%" stop-color="#0A0300"/>
+    </linearGradient>
+    <linearGradient id="bag1-trio" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C44B1B"/>
+      <stop offset="100%" stop-color="#3D1A05"/>
+    </linearGradient>
+    <linearGradient id="bag2-trio" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7A6A5A"/>
+      <stop offset="100%" stop-color="#2D1206"/>
+    </linearGradient>
+    <linearGradient id="bag3-trio" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8B2E0A"/>
+      <stop offset="100%" stop-color="#1A0A00"/>
+    </linearGradient>
+    <linearGradient id="label-trio" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5ECD7"/>
+      <stop offset="100%" stop-color="#EDE4CC"/>
+    </linearGradient>
+    <radialGradient id="light-trio" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#E8A045" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#bg-trio)"/>
+  <rect width="800" height="1000" fill="url(#light-trio)"/>
+
+  <circle cx="100" cy="100" r="2" fill="#C44B1B" opacity="0.25"/>
+  <circle cx="700" cy="200" r="1.5" fill="#E8A045" opacity="0.25"/>
+  <circle cx="750" cy="750" r="2" fill="#C44B1B" opacity="0.2"/>
+
+  <!-- Three bags arranged: left, center (taller), right -->
+
+  <!-- Left bag (slightly behind) -->
+  <rect x="155" y="250" width="170" height="430" rx="8" fill="url(#bag1-trio)" opacity="0.85"/>
+  <line x1="195" y1="250" x2="195" y2="680" stroke="#1A0A00" stroke-width="1" opacity="0.4"/>
+  <line x1="295" y1="250" x2="295" y2="680" stroke="#1A0A00" stroke-width="1" opacity="0.4"/>
+  <rect x="175" y="226" width="130" height="28" rx="4" fill="#0A0300" opacity="0.8"/>
+  <!-- Left bag label -->
+  <rect x="175" y="290" width="130" height="160" rx="4" fill="url(#label-trio)"/>
+  <rect x="175" y="290" width="130" height="5" rx="2" fill="#C44B1B"/>
+  <text x="240" y="322" text-anchor="middle" font-family="Georgia, serif" font-size="8" fill="#7A6A5A" letter-spacing="2">ETHIOPIA</text>
+  <text x="240" y="344" text-anchor="middle" font-family="Georgia, serif" font-size="12" font-weight="700" fill="#1A0A00">Yirgacheffe</text>
+  <text x="240" y="362" text-anchor="middle" font-family="Georgia, serif" font-size="8" fill="#7A6A5A">LIGHT</text>
+  <text x="240" y="380" text-anchor="middle" font-family="Georgia, serif" font-size="8" fill="#7A6A5A" letter-spacing="1">100g</text>
+
+  <!-- Right bag (slightly behind) -->
+  <rect x="475" y="250" width="170" height="430" rx="8" fill="url(#bag3-trio)" opacity="0.85"/>
+  <line x1="515" y1="250" x2="515" y2="680" stroke="#0A0300" stroke-width="1" opacity="0.4"/>
+  <line x1="615" y1="250" x2="615" y2="680" stroke="#0A0300" stroke-width="1" opacity="0.4"/>
+  <rect x="495" y="226" width="130" height="28" rx="4" fill="#0A0300" opacity="0.8"/>
+  <!-- Right bag label -->
+  <rect x="495" y="290" width="130" height="160" rx="4" fill="url(#label-trio)"/>
+  <rect x="495" y="290" width="130" height="5" rx="2" fill="#8B2E0A"/>
+  <text x="560" y="322" text-anchor="middle" font-family="Georgia, serif" font-size="8" fill="#7A6A5A" letter-spacing="2">KENYA</text>
+  <text x="560" y="344" text-anchor="middle" font-family="Georgia, serif" font-size="12" font-weight="700" fill="#1A0A00">Kenya AA</text>
+  <text x="560" y="362" text-anchor="middle" font-family="Georgia, serif" font-size="8" fill="#7A6A5A">MED-LIGHT</text>
+  <text x="560" y="380" text-anchor="middle" font-family="Georgia, serif" font-size="8" fill="#7A6A5A" letter-spacing="1">100g</text>
+
+  <!-- Center bag (foreground, taller) -->
+  <rect x="295" y="200" width="210" height="500" rx="10" fill="url(#bag2-trio)"/>
+  <line x1="345" y1="200" x2="345" y2="700" stroke="#0A0300" stroke-width="1.5" opacity="0.4"/>
+  <line x1="465" y1="200" x2="465" y2="700" stroke="#0A0300" stroke-width="1.5" opacity="0.4"/>
+  <rect x="320" y="172" width="160" height="32" rx="5" fill="#0A0300" opacity="0.9"/>
+  <!-- Center bag label -->
+  <rect x="318" y="270" width="164" height="220" rx="5" fill="url(#label-trio)"/>
+  <rect x="318" y="270" width="164" height="6" rx="3" fill="#E8A045"/>
+  <text x="400" y="308" text-anchor="middle" font-family="Georgia, serif" font-size="8" fill="#7A6A5A" letter-spacing="2">COLOMBIA</text>
+  <text x="400" y="332" text-anchor="middle" font-family="Georgia, serif" font-size="15" font-weight="700" fill="#1A0A00">Colombian</text>
+  <text x="400" y="352" text-anchor="middle" font-family="Georgia, serif" font-size="15" font-weight="700" fill="#1A0A00">Huila</text>
+  <text x="400" y="374" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#7A6A5A">MEDIUM ROAST</text>
+  <text x="400" y="394" text-anchor="middle" font-family="Georgia, serif" font-size="8" fill="#7A6A5A" letter-spacing="1">100g</text>
+
+  <!-- Main label area below bags -->
+  <rect x="180" y="740" width="440" height="130" rx="8" fill="#F5ECD7" opacity="0.96"/>
+  <rect x="180" y="740" width="440" height="6" rx="3" fill="#C44B1B"/>
+
+  <text x="400" y="778" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#7A6A5A" letter-spacing="4" font-style="italic">THE</text>
+  <text x="400" y="808" text-anchor="middle" font-family="Georgia, serif" font-size="26" font-weight="700" fill="#1A0A00">Discovery Trio</text>
+  <line x1="225" y1="818" x2="575" y2="818" stroke="#C44B1B" stroke-width="0.5" opacity="0.4"/>
+  <text x="400" y="840" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#7A6A5A" letter-spacing="2">THREE ORIGINS · 300g TOTAL · GIFT SET</text>
+  <text x="400" y="858" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#7A6A5A">ROASTED TO ORDER · PERFECT FOR EXPLORING</text>
+
+  <ellipse cx="400" cy="960" rx="200" ry="55" fill="#C44B1B" opacity="0.07"/>
+  <text x="400" y="978" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#7A6A5A" letter-spacing="3" opacity="0.7">EMBER &amp; ASH</text>
+</svg>
